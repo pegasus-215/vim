@@ -66,6 +66,15 @@ endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""原代码结束""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" <F2>    switch between absolute number and relative number
+" <c-n>   nerdtree
+" <c-t>   taglist
+
+
+
+
+
+
 "*************************************************自己添加的第一部分开始**********************************************************
 "以下部分是我自己添加的
 "改变了字体大小，和背景颜色
@@ -158,7 +167,7 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set shiftwidth=2 
 
 "to avoid extraneous whitespace. We can have VIM flag that for us so that it’s easy to spot – and then remove.
-"接下来这一句是在网上找到的解决办法，给"BadWhitespace先定义一下，然后才能使用。
+"接下来这一句是在网上找到的解决办法，给"BadWhitespace先定义一下，然后才能使用。下面命令中的au，意思就是自动执行的意思。These are automatically run for a given file type
 highlight BadWhitespace ctermbg=blue guibg=gray
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
@@ -173,8 +182,35 @@ if 'VIRTUAL_ENV' in os.environ:
   execfile(activate_this, dict(__file__=activate_this))
 EOF
 
-" 启用行号  
+" 启用行号,绝对行号和相对行号
+" 参考 http://jeffkreeftmeijer.com/2012/relative-line-numbers-in-vim-for-super-fast-movement/
 set nu 
+set relativenumber
+"---------------------------------------------------------------------------------------------------------------------------------------------
+"the snap below is from the link above, in which the author give a Plugin in
+"the git, and i have installed it, so maybe the code below may not be used
+"anymore. But it can be used to learn how the function is made out.
+"如果想在absolute number和relative number之间切换的话，可以用下面的程序。
+"function! NumberToggle()
+"  if(&relativenumber == 1)
+"    set number
+"  else
+"    set relativenumber
+"  endif
+"endfunc
+"
+"nnoremap <C-n> :call NumberToggle()<cr>
+
+"在离开vim界面的时候，就显示absolute number，在vim界面就显示relative number.
+":au FocusLost * :set number
+":au FocusGained * :set relativenumber
+
+"在inert模式下显示absolute number, normal模式下显示relative number
+"autocmd InsertEnter * :set number
+"autocmd InsertLeave * :set relativenumber
+"---------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 "下面是关于vundle的配置
 "如果设置为compatible，则tab将不会变成空格
@@ -244,6 +280,14 @@ nnoremap <leader>u :GundoToggle<CR>
 
 " Insert or delete brackets, parens, quotes in pair.
 Plugin 'jiangmiao/auto-pairs'
+
+
+" 增加了HTML5的语法支持
+Plugin 'othree/html5.vim'
+
+" absolute和relative的切换
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+let g:NumberToggleTrigger="<F2>"
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
