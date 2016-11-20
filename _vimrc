@@ -67,13 +67,15 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""原代码结束""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " <F2>    switch between absolute number and relative number
+" <F5>    run python
 " <c-n>   nerdtree
 " <c-t>   taglist
-
-
-
-
-
+" gcc     comment out the inline code by using tomtom/tcomment_vim
+" <s-d>   go to function defination
+" <leader>u    show the undo tree
+" <leader> is changed to ','
+" gv      select the content entered in last insert mode
+" <space> fold the code
 
 "*************************************************自己添加的第一部分开始**********************************************************
 "以下部分是我自己添加的
@@ -285,10 +287,12 @@ Plugin 'jiangmiao/auto-pairs'
 " 增加了HTML5的语法支持
 Plugin 'othree/html5.vim'
 
-" absolute和relative的切换
+" absolute number和relative number的切换
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 let g:NumberToggleTrigger="<F2>"
 
+" use gcc to comment out the code inline;gc to comment out the visual part(more functions u can find)
+Plugin 'tomtom/tcomment_vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
