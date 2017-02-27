@@ -68,15 +68,31 @@ endfunction
 
 " <F2>    switch between absolute number and relative number
 " <F5>    run python
-" <c-n>   nerdtree
-" <c-t>   taglist
-" gcc     comment out the inline code by using tomtom/tcomment_vim
-" <s-d>   go to function defination
-" <leader>u    show the undo tree
-" <leader> is changed to ','
 " gv      select the content entered in last insert mode
+" gcc     comment out the inline code by using tomtom/tcomment_vim
 " <space> fold the code
-
+" jk      <esc>
+" <c-t>   taglist
+" <c-n>   see the list of "completions" for the current word, based on all the words that you have used in the current document.
+" <s-d>   go to function defination
+" <c-j>   <c-w><c-j>
+" <c-k>   <c-w><c-k>
+" <c-l>   <c-w><c-l>
+" <c-h>   <c-w><c-h>
+" <s-u>   uppercase the word in insert mode and normanl mode
+" <s-m>   lowercase the word in insert mode and normal MODE
+" <leader>nh   :no high light
+" <leader>lo   :lopen<cr>
+" <leader>lc   :lclose<cr>
+" <leader> is changed to ','
+" <leader>n    nerdtree
+" <leader>u    show the undo tree
+" <leader>ev   edit vimrc
+" <leader>sv   source vimrc
+" gt      "g"o to the next tab
+" gT       go to the opposit tab
+" :tabnew    open a new tab with a new buffer 
+" gV      selects the block of characters you added last time you were in INSERT mode
 "*************************************************自己添加的第一部分开始**********************************************************
 "以下部分是我自己添加的
 "改变了字体大小，和背景颜色
@@ -113,7 +129,8 @@ nnoremap gV `[v`]
 let mapleader=","
 
 " edit vimrc/zshrc and load vimrc bindings
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
+" $MYVIMRC is a special Vim variable that points to your /.vimrc file.
+nnoremap <leader>ev :tabnew $MYVIMRC<CR> 
 
 "nnoremap <leader>ez :vsp ~/.zshrc<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
@@ -124,6 +141,45 @@ function CompilePY()
 	exec "w"
 	exec "!python %"
 endfunction
+
+" use the system clipboard as the default clipboard 	
+set clipboard=unnamed
+
+" set wildmenu
+
+" Welcome myself!
+echo "(>^.^<)"
+echo "Fight for the future~"
+
+"uppercase the word
+nnoremap <s-u> viwU
+
+nnoremap <s-m> viwu
+
+" maxmize the GVIM window. It is said on the web that the command below doesn't support GVIM in GNOME.
+autocmd GUIEnter * simalt ~x
+
+" map <esc> to jk
+inoremap jk <esc>
+vnoremap jk <esc> 
+cnoremap jk <esc> 
+
+inoremap  <esc> <nop>
+vnoremap  <esc> <nop> 
+cnoremap  <esc> <nop> 
+
+
+
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+nnoremap <c-h> <c-w><c-h>
+
+"cancel the highlight after the search
+nnoremap <leader>nh :nohl<cr>
+
+nnoremap <leader>lo   :lopen<cr>
+nnoremap <leader>lc   :lclose<cr>
 "*************************************************自己添加的第一部分结束**********************************************************
 
 "***************************************https://www.fullstackpython.com/vim.html**************************************************
@@ -169,9 +225,9 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set shiftwidth=2 
 
 "to avoid extraneous whitespace. We can have VIM flag that for us so that it’s easy to spot – and then remove.
-"接下来这一句是在网上找到的解决办法，给"BadWhitespace先定义一下，然后才能使用。下面命令中的au，意思就是自动执行的意思。These are automatically run for a given file type
-highlight BadWhitespace ctermbg=blue guibg=gray
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+"接下来这一句是在网上找到的解决办法，给"BadWhitespace先定义一下，然后才能使用。下面命令中的au，意思就是自动执行的意思。These are automatically run for a given file type,感觉和后面语法检测的功能有点重复，所以不用了。
+" highlight BadWhitespace ctermbg=blue guibg=gray
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 
 "python with virtualenv support
@@ -240,14 +296,26 @@ let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <S-d> : YcmCompleter GoTo<CR>
 
 "You can have VIM check your syntax on each save with the syntastic extension:
+"in the code window, :lopen and :lclose will open and close the syntax check
+"info window. In the syntax check info window, :bdelete will close itself.
 Plugin 'scrooloose/syntastic'
+" code below is recommended in the github
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "Also add PEP8 checking with this nifty little plugin:
-Plugin 'nvie/vim-flake8'
+" Plugin 'nvie/vim-flake8'
 
 "enable all Python syntax highlighting features, Finally, make your code look pretty:
 let python_highlight_all=1
 
+"Zenburn is a low-contrast color scheme for Vim. It’s easy for your eyes and designed to keep you in the zone for long programming sessions.
 Plugin 'jnurmine/Zenburn'
 
 "Plugin 'altercation/vim-colors-solarized'
@@ -260,14 +328,14 @@ Plugin 'scrooloose/nerdtree'
 "以下值为0的时候，打开vim是不会启动nerdtree的，值为1的时候，启动自动打开nerdtree
 let g:nerdtree_tabs_open_on_gui_startup = 0
 "用于打开和关闭NERTree
-map <C-n> :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 
 "if you want to use tabs, utilize vim-nerdtree-tabi:
 Plugin 'jistr/vim-nerdtree-tabs'
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
 "超级搜索
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 "fugitive is a git plugin, 再看看有没有其他版本管理plugin
 Plugin 'tpope/vim-fugitive'
@@ -323,4 +391,5 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" 	Put your non-Plugin stuff after this line
+" this a complicated test
