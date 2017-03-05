@@ -99,6 +99,9 @@ endfunction
 set guifont=courier\ New:h10
 colorscheme desert
 
+" set the default folder while open the gvim
+cd C:\Users\Andy\Documents\Code
+
 " 设置编码自动识别, 中文引号显示  
 set fileencodings=utf-8,cp936,big5,euc-jp,euc-kr,latin1,ucs-bom  
 set fileencodings=utf-8,gbk  
